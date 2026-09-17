@@ -14,11 +14,11 @@
       </h1>
 
       <nav class="space-y-4">
-        <a href="#" onclick="trendingMovies(event)" class="block text-red-500 font-semibold">
+        <a href="#" id="homeLink" onclick="trendingMovies(event)" class="block text-red-500 font-semibold">
           Home
         </a>
 
-        <a href="#" onclick="allTrendingMovies(event)" class="block text-gray-500">
+        <a href="#" id="trendingLink" onclick="allTrendingMovies(event)" class="block text-gray-500">
           Trending
         </a>
 
@@ -40,7 +40,7 @@
         </button>
       </div>
 
-      <div id="hero-banner" class="relative rounded-2xl overflow-hidden h-80 mb-10">
+      <div id="heroBanner" class="relative rounded-2xl overflow-hidden h-80 mb-10">
         <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSBB4LQTn0vRq4ydPLp-uTj_lEUHOHYWUU18JlCq5KuMw&s=10" class="w-full h-full object-cover" alt="">
 
         <div class="absolute inset-0 bg-black/50 flex items-end">
@@ -55,19 +55,17 @@
         </div>
       </div>
 
-      <h2 class="text-2xl font-bold mb-6">
+      <h2 id="sectionTitle" class="text-2xl font-bold mb-6">
         Trending Movies
       </h2>
 
       <div id="movieContainer" class="grid grid-cols-2 my-10 md:grid-cols-4 gap-6 sm:grid-cols-2">
         <!-- display trending movies here  -->
       </div>
-      <a href="#" id="seeMoreBtn" onclick="showTrendingView(event)" class="inline-block mt-4 text-red-500 font-semibold hover:underline">See More -></a>
+
+      <a href="#" id="seeMoreBtn" onclick="allTrendingMovies(event)">See More -></a>
     </main>
   </div>
-
-
-
 
   <script src="app.js"></script>
 </body>
