@@ -5,11 +5,20 @@ const IMAGE_BASE_URL = `https://image.tmdb.org/t/p/w500`;
 async function trendingMovies () {
   const url = `${BASE_URL}trending/movie/week?api_key=${API_KEY}`;
 
+  try {
   await fetch (url)
           .then((res) => res.json())
           .then((data) => displayTrendingMovies(data.results.slice(0, 4)));
+  } catch (error) {
+    alert("Error fetching trending movies");
+  }
 }
-trendingMovies();
+
+async function showHomeView (e) {
+  if (e) e.preventDefault();
+
+  
+}
 
 let trendingMovieArr = [];
 
@@ -30,3 +39,37 @@ function displayTrendingMovies (movies) {
   document.getElementById("movieContainer").innerHTML = trendingMovieHTML;
 }
 
+async function allTrendingMovies (e) {
+  if (e) e.preventDefault();
+
+  const url = `${BASE_URL}trending/movie/week?api_key=${API_KEY}`;
+
+  try {
+    await fetch (url)
+            .then((res) => res.json())
+            .then((data) => displayTrendingMovies(data.results));
+
+    const sectionTitle = document.querySelector("h2.text-2xl.font-bold.mb-6");
+    if (sectionTitle) sectionTitle.textContent = "All Trending Movies";
+
+    const seeMoreBtn = document.getElementById("seeMoreBtn");
+    if (seeMoreBtn) seeMoreBtn.style.display = "none";
+
+    updateNavState("Trending");
+  } catch (error) {
+    console.error("Error fetching all trending movies:", error);
+  }
+}
+allTrendingMovies();
+
+function updateNavState(activeNavText) {
+  const navLinks = document.querySelectorAll("aside nav a");
+
+  navLinks.forEach((link) => {
+    if (link.textContent.trim() === activeNavText) {
+      link.className = "block text-red-500 font-semibold";
+    } else {
+      link.className = "block text-gray-500";
+    }
+  });
+}
