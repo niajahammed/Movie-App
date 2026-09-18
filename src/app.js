@@ -5,7 +5,7 @@ const IMAGE_BASE_URL = `https://image.tmdb.org/t/p/w500`;
 async function trendingMovies(event) {
   if (event) event.preventDefault();
 
-  document.getElementById("heroBanner").style.display = "block";
+  // document.getElementById("heroBanner").style.display = "block";
   document.getElementById("seeMoreBtn").style.display = "inline-block";
   document.getElementById("sectionTitle").innerText = "Trending Movies";
 
@@ -22,7 +22,7 @@ async function trendingMovies(event) {
 async function allTrendingMovies(event) {
   if (event) event.preventDefault();
 
-  document.getElementById("heroBanner").style.display = "none";
+  // document.getElementById("heroBanner").style.display = "none";
   document.getElementById("seeMoreBtn").style.display = "none";
   document.getElementById("sectionTitle").innerText = "All Trending Movies";
 
@@ -55,3 +55,6 @@ function displayTrendingMovies(movies) {
 }
 
 trendingMovies();
+
+
+
