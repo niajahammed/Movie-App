@@ -4,79 +4,173 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Movie App</title>
+  <script>
+    tailwind = {
+      config: {
+        darkMode: "class",
+      }
+    }
+  </script>
   <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body class="bg-gray-100">
-  <div class="flex min-h-screen">
-    <aside class="w-64 bg-white p-6 shadow-lg sticky top-0 h-screen shrink-0">
-      <h1 class="text-2xl font-bold text-red-500 mb-8">
+<body class="bg-gray-100 text-gray-800 dark:bg-gray-900 dark:text-gray-100 transition-colors duration-200">
+  <div>
+    <div class="flex justify-between p-8 items-center bg-white dark:bg-gray-800 sticky top-0 z-50 transition-colors duration-200">
+      <h1 class="text-3xl font-bold text-rose-600 cursor-pointer">
         FlixNow
       </h1>
 
-      <nav class="space-y-4">
-        <a href="#" id="homeLink" onclick="trendingMovies(event)" class="block text-red-500 font-semibold">
+      <nav class="flex justify-center gap-6">
+        <a href="#" class="text-rose-600 font-semibold">
           Home
         </a>
 
-        
         <div class="relative group">
-          <a href="#" id="trendingLink" onclick="allTrendingMovies(event)" class="flex justify-between items-center text-gray-500">
-            <span>Trending</span>
-            <span>-></span>
+          <a href="#" class="text-gray-500 dark:text-gray-300">
+            Movies
           </a>
 
-          <div class="absolute left-[50%] top-0 ml-2 w-44 bg-white border border-gray-200 rounded-lg shadow-xl py-2 hidden group-hover:flex flex-col z-50">
-            <a href="#" onclick="fetchTrendingMovies(event)" class="px-4 py-2 text-sm text-gray-600 hover:bg-red-50 hover:text-red-500 font-medium">Movies</a>
-            <a href="#" onclick="fetchTrendingTV(event)" class="px-4 py-2 text-sm text-gray-600 hover:bg-red-50 hover:text-red-500 font-medium">TV Series</a>
+          <div class="absolute top-full left-0 hidden bg-white dark:bg-gray-800 p-2 border border-gray-200 dark:border-gray-700 rounded-md shadow-lg min-w-[150px] z-50  group-hover:block flex flex-col">
+            <ul>
+              <a href="#" class="text-gray-600 dark:text-gray-200 py-2 px-3 block hover:bg-rose-50 hover:rounded-md hover:text-rose-500">
+                Popular
+              </a>
+
+              <a href="#" class="text-gray-600 dark:text-gray-200 py-2 px-3 block hover:bg-rose-50 hover:rounded-md hover:text-rose-500">
+                Now Playing
+              </a>
+
+              <a href="#" class="text-gray-600 dark:text-gray-200 py-2 px-3 block hover:bg-rose-50 hover:rounded-md hover:text-rose-500">
+                Top Rated
+              </a>
+
+              <a href="#" class="text-gray-600 dark:text-gray-200 py-2 px-3 block hover:bg-rose-50 hover:rounded-md hover:text-rose-500">
+                Upcoming
+              </a>
+            </ul>
           </div>
         </div>
 
         <div class="relative group">
-          <a href="#" class="flex justify-between items-center text-gray-500">
-            <span>Genres</span>
-            <span>-></span>
+          <a href="" class="text-gray-500 dark:text-gray-300">
+            TV Series
           </a>
 
-          <div class="absolute left-[50%] top-0 ml-2 w-44 bg-white border border-gray-200 rounded-lg shadow-xl py-2 hidden group-hover:flex flex-col z-50">
-            <a href="#" class="block text-gray-800 px-4 py-2 hover:bg-rose-50 hover:text-rose-500">
-              Movies
+          <div class="absolute top-full left-0 hidden bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 py-2 px-3 rounded-md shadow-lg min-w-[180px] z-50 group-hover:block flex flex-col">
+            <a href="#" class="text-gray-600 dark:text-gray-200 py-2 px-3 block hover:bg-rose-50 hover:rounded-md hover:text-rose-500">
+              Popular Shows
             </a>
-            <a href="#" class="block text-gray-800 px-4 py-2 hover:bg-rose-50 hover:text-rose-500">
-              TV Series
+
+            <a href="#" class="text-gray-600 dark:text-gray-200 py-2 px-3 block hover:bg-rose-50 hover:rounded-md hover:text-rose-500">
+              Airing Today
+            </a>
+
+            <a href="#" class="text-gray-600 dark:text-gray-200 py-2 px-3 block hover:bg-rose-50 hover:rounded-md hover:text-rose-500">
+              On The Air
+            </a>
+
+            <a href="#" class="text-gray-600 dark:text-gray-200 py-2 px-3 block hover:bg-rose-50 hover:rounded-md hover:text-rose-500">
+              Top Rated Shows
             </a>
           </div>
         </div>
 
-        <a href="#" class="block text-gray-500">
-          Favorites
+        <a href="#" class="text-gray-500 dark:text-gray-300">
+          Genres
+        </a>
+
+        <a href="#" class="text-gray-500 dark:text-gray-300">
+          Trending
         </a>
       </nav>
-    </aside>
 
-    <main class="flex-1 p-8">
-      <div class="flex justify-between items-center gap-4 mb-8">
-        <input type="text" placeholder="Search movie..." class="w-full px-4 py-2 rounded-lg border">
-        <button class="bg-red-500 text-white px-5 py-2 rounded-lg">
-          Search
+      <div class="flex gap-4 items-center">
+        <button class="px-2 py-1 bg-gray-200 dark:bg-gray-700 text-gray-800 dark:text-gray-100 rounded cursor-pointer" id="themeBtn" type="button" onclick="toggleTheme()">
+          🌙
+        </button>
+
+        <a href="">
+          <button class="border border-gray-200 py-2 px-4 rounded-md font-semibold hover:bg-gray-200 dark:hover:bg-gray-800">
+            Log In
+          </button>
+        </a>
+        
+        <a href="">
+          <button class="border border-gray-200 py-2 px-4 rounded-md bg-rose-600 text-white font-semibold hover:bg-rose-700">
+            Sign Up
+          </button>
+        </a>
+      </div>
+    </div>
+
+
+    <div class="max-w-[1200px] mx-auto">
+      <div class="flex justify-between items-center gap-6 my-10 px-8">
+        <input type="text" placeholder="Search Movies, TV Series..." class="w-full border border-gray-300 px-3 py-2 rounded-md">
+
+        <button class="text-md font-semibold bg-rose-600 text-white py-2 px-3 rounded-md cursor-pointer hover:bg-rose-700">
+          SEARCH
         </button>
       </div>
 
-      <!-- <div id="heroBanner" class="relative rounded-2xl overflow-hidden h-80 mb-10">
-        
+      <div class="px-9">
+        <h2 class="text-2xl font-semibold text-rose-600 mb-6">
+          Movies
+        </h2>
 
-        
-      </div> -->
+        <div class="grid grid-cols-4 gap-4">
+          <div class="border border-gray-300 dark:border-gray-600 p-2 rounded-md ">
+            <img src="https://d1csarkz8obe9u.cloudfront.net/posterpreviews/movie-poster-template-design-21a1c803fe4ff4b858de24f5c91ec57f_screen.jpg?ts=1636996180" alt="" class="w-full object-cover mb-2 rounded-md">
 
-      <h2 id="sectionTitle" class="text-2xl font-bold mb-6">
-        Trending Movies
-      </h2>
+            <h3 class="text-xl font-semibold text-gray-600 dark:text-gray-200 mb-2">
+              Movie Title
+            </h3>
 
-      <div id="movieContainer" class="grid grid-cols-2 my-10 md:grid-cols-4 gap-6 sm:grid-cols-2">
-        <!-- display trending movies here  -->
+            <p class="text-gray-500 dark:text-gray-300">
+              Movie Overview
+            </p>
+          </div>
+
+          <div class="border border-gray-300 p-2 rounded-md ">
+            <img src="https://d1csarkz8obe9u.cloudfront.net/posterpreviews/movie-poster-template-design-21a1c803fe4ff4b858de24f5c91ec57f_screen.jpg?ts=1636996180" alt="" class="w-full object-cover mb-2 rounded-md">
+
+            <h3 class="text-xl font-semibold text-gray-600 mb-2">
+              Movie Title
+            </h3>
+
+            <p class="text-gray-500">
+              Movie Overview
+            </p>
+          </div>
+
+          <div class="border border-gray-300 p-2 rounded-md ">
+            <img src="https://d1csarkz8obe9u.cloudfront.net/posterpreviews/movie-poster-template-design-21a1c803fe4ff4b858de24f5c91ec57f_screen.jpg?ts=1636996180" alt="" class="w-full object-cover mb-2 rounded-md">
+
+            <h3 class="text-xl font-semibold text-gray-600 mb-2">
+              Movie Title
+            </h3>
+
+            <p class="text-gray-500">
+              Movie Overview
+            </p>
+          </div>
+
+          <div class="border border-gray-300 p-2 rounded-md ">
+            <img src="https://d1csarkz8obe9u.cloudfront.net/posterpreviews/movie-poster-template-design-21a1c803fe4ff4b858de24f5c91ec57f_screen.jpg?ts=1636996180" alt="" class="w-full object-cover mb-2 rounded-md">
+
+            <h3 class="text-xl font-semibold text-gray-600 mb-2">
+              Lorem ipsum dolor sit amet.
+            </h3>
+
+            <p class="text-gray-500">
+              Lorem ipsum dolor sit amet consectetur adipisicing elit. Nesciunt, eos.
+            </p>
+          </div>
+        </div>
       </div>
+    </div>
 
-      <a href="#" id="seeMoreBtn" onclick="allTrendingMovies(event)">See More -></a>
-    </main>
+    
   </div>
 
   <script src="app.js"></script>
