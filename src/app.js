@@ -27,14 +27,30 @@ if (htmlElement.classList.contains("dark")) {
   themeBtn.textContent = "🌙";
 }
 
+// for randomize 
+function shuffle (array) {
+  let currentIndex = array.length, randomIndex;
+
+  while (currentIndex !== 0) {
+    randomIndex = Math.floor(Math.random() * currentIndex);
+    currentIndex--;
+
+    [array[currentIndex], array[randomIndex]] = [array[randomIndex], array[currentIndex]];
+  }
+  return array;
+}
+
 // for trending movies
 async function fetchTrendingMovies () {
   const trendingMovieUrl = `${BASE_URL}trending/movie/week?api_key=${API_KEY}`;
 
   try {
-    await fetch (trendingMovieUrl)
-            .then ((res) => res.json())
-            .then ((data) => displayTrendingMovies(data.results.slice(0, 4)));
+    const res = await fetch(trendingMovieUrl);
+    const data = await res.json();
+
+    const shuffledMovies = shuffle(data.results);
+
+    displayTrendingMovies(shuffledMovies.slice(0, 4));
   } catch (error) {
     console.error("Error fetching trending movies: ", error);
   }
@@ -70,9 +86,12 @@ async function fetchTrendingTV () {
    const trendingTVUrl = `${BASE_URL}trending/tv/week?api_key=${API_KEY}`;
 
    try {
-    await fetch (trendingTVUrl)
-              .then ((res) => res.json())
-              .then ((data) => displayTrendingTV(data.results.slice(0, 4)));
+    const res = await fetch(trendingTVUrl);
+    const data = await res.json();
+
+    const shuffledTv = shuffle(data.results);
+
+    displayTrendingTV(shuffledTv.slice(0, 4));
    } catch (error) {
     console.error("Error fetching trending TV: ", error);
    }
