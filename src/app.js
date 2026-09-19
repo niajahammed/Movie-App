@@ -1,8 +1,15 @@
 const API_KEY = "da99b8a46a743f9cb89fc6527d422c87";
 const BASE_URL = "https://api.themoviedb.org/3/";
 const IMAGE_BASE_URL = "https://image.tmdb.org/t/p/w500/";
+
 const searchInput = document.getElementById("searchInput");
 const searchBtn = document.getElementById("searchBtn");
+
+const homeView = document.getElementById("home-view");
+const moviesView = document.getElementById("movies-view");
+
+const homeBtn = document.getElementById("homeBtn");
+const moviesBtn = document.getElementById("moviesBtn");
 
 const htmlElement = document.documentElement;
 const themeBtn = document.getElementById("themeBtn");
@@ -39,6 +46,29 @@ function shuffle (array) {
   }
   return array;
 }
+
+function showView (viewName) {
+  if (viewName === "home") {
+    homeView.classList.remove("hidden");
+    moviesView.classList.add("hidden");
+    homeBtn.className = "text-rose-600 font-semibold dark:text-rose-500 cursor-pointer";
+    moviesBtn.className = "text-gray-500 dark:text-gray-200 cursor-pointer hover:text-rose-600"
+  } else if (viewName === "movies") {
+    homeView.classList.add("hidden");
+    moviesView.classList.remove("hidden");
+    moviesBtn.className = "text-rose-600 font-semibold dark:text-rose-500 cursor-pointer";
+    homeBtn.className = "text-gray-500 dark:text-gray-200 cursor-pointer hover:text-rose-600";
+
+    // Load page 1 if container is currently empty
+    if (document.getElementById("all-movies-grid").children.length === 0) {
+      fetchMoreMovies(currentMoviePage);
+    }
+  }
+}
+
+homeBtn.addEventListener("click", () => showView("home"));
+moviesBtn.addEventListener("click", () => showView("movies"));
+viewMoreMoviesBtn.addEventListener("click", () => showView("movies"));
 
 // for trending movies
 async function fetchTrendingMovies () {
@@ -183,4 +213,20 @@ function displaySearchResults (results) {
 
 searchBtn.addEventListener("click", () => {
   searchItems();
+});
+
+// for view more movies 
+async function fetchMoreMovies () {
+  const url = `${BASE_URL}trending/movie/week?api_key=${API_KEY}`;
+
+  try {
+    await fetch(url)
+          .then((res) => res.json())
+          .then((data) => displayTrendingMovies(data.results));
+  } catch (error) {
+    console.error("Error fetching movies: ", error);
+  }
+}
+document.getElementById("viewMoreMoviesBtn").addEventListener("click", () => {
+  fetchMoreMovies();
 });
