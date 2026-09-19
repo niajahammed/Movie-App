@@ -27,10 +27,10 @@ if (htmlElement.classList.contains("dark")) {
 
 // for trending movies
 async function fetchTrendingMovies () {
-  const trendingUrl = `${BASE_URL}trending/movie/week?api_key=${API_KEY}`;
+  const trendingMovieUrl = `${BASE_URL}trending/movie/week?api_key=${API_KEY}`;
 
   try {
-    await fetch (trendingUrl)
+    await fetch (trendingMovieUrl)
             .then ((res) => res.json())
             .then ((data) => displayTrendingMovies(data.results.slice(0, 4)));
   } catch (error) {
@@ -39,25 +39,64 @@ async function fetchTrendingMovies () {
 }
 fetchTrendingMovies();
 
+// display trending movies
 function displayTrendingMovies (movies) {
-  let trendingHTML = "";
+  let trendingMovieHTML = "";
 
   movies.forEach ((movie) => {
-    const trendingImageUrl = `${IMAGE_BASE_URL}${movie.poster_path}`;
+    const movieImageUrl = `${IMAGE_BASE_URL}${movie.poster_path}`;
 
-    trendingHTML += `
+    trendingMovieHTML += `
       <div class="border border-gray-300 p-2 rounded-md dark:border-gray-700">
-        <img src="${trendingImageUrl}" alt="" class="w-full object-cover mb-2 rounded-md">
+        <img src="${movieImageUrl}" alt="${movie.original_title}" class="w-full object-cover mb-2 rounded-md">
 
         <h3 class="text-xl font-semibold text-gray-600 mb-2 dark:text-gray-200">
           ${movie.original_title}
         </h3>
 
-        <p class="text-gray-500 dark:text-gray-400">
+        <p class="text-gray-500 dark:text-gray-400 mb-1">
           ${movie.overview.slice(0, 30) || "No description available"}...
         </p>
       </div>
     `;
   });
-  document.getElementById("trending-movies").innerHTML = trendingHTML;
+  document.getElementById("trending-movies").innerHTML = trendingMovieHTML;
+}
+
+// for trending TV 
+async function fetchTrendingTV () {
+   const trendingTVUrl = `${BASE_URL}trending/tv/week?api_key=${API_KEY}`;
+
+   try {
+    await fetch (trendingTVUrl)
+              .then ((res) => res.json())
+              .then ((data) => displayTrendingTV(data.results.slice(0, 4)));
+   } catch (error) {
+    console.error("Error fetching trending TV: ", error);
+   }
+}
+fetchTrendingTV();
+
+// display trending TV 
+function displayTrendingTV (shows) {
+  let trendingTVHTML = "";
+
+  shows.forEach ((show) => {
+    const TVImageUrl = `${IMAGE_BASE_URL}${show.poster_path}`;
+
+    trendingTVHTML += `
+      <div class="border border-gray-300 p-2 rounded-md dark:border-gray-700">
+        <img src="${TVImageUrl}" alt="${show.original_name}" class="w-full object-cover mb-2 rounded-md">
+
+        <h3 class="text-xl font-semibold text-gray-600 mb-2 dark:text-gray-200">
+          ${show.original_name}
+        </h3>
+
+        <p class="text-gray-500 dark:text-gray-400 mb-1">
+          ${show.overview.slice(0, 30) || "No description available"}...
+        </p>
+      </div>
+    `;
+  });
+  document.getElementById("trending-tv").innerHTML = trendingTVHTML;
 }
