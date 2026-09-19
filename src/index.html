@@ -4,47 +4,53 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Movie App</title>
+  
+  <script src="https://cdn.tailwindcss.com"></script>
+
   <script>
-    tailwind = {
-      config: {
-        darkMode: "class",
-      }
+    tailwind.config = {
+      darkMode: "class",
     }
   </script>
-  <script src="https://cdn.tailwindcss.com"></script>
+
+   <script>
+    if (localStorage.getItem("theme") === "dark") {
+      document.documentElement.classList.add("dark");
+    }
+  </script>
 </head>
-<body class="bg-gray-100 text-gray-800 dark:bg-gray-900 dark:text-gray-100 transition-colors duration-200">
+<body class="bg-gray-100 text-gray-800 dark:bg-gray-900 dark:text-gray-200 transition-colors duration-200">
   <div>
-    <div class="flex justify-between p-8 items-center bg-white dark:bg-gray-800 sticky top-0 z-50 transition-colors duration-200">
-      <h1 class="text-3xl font-bold text-rose-600 cursor-pointer">
+    <div class="flex justify-between p-8 items-center bg-white dark:bg-gray-800  sticky top-0 z-50 transition-colors duration-200">
+      <h1 class="text-3xl font-bold text-rose-600 cursor-pointer dark:text-rose-500">
         FlixNow
       </h1>
 
       <nav class="flex justify-center gap-6">
-        <a href="#" class="text-rose-600 font-semibold">
+        <a href="#" class="text-rose-600 font-semibold dark:text-rose-500">
           Home
         </a>
 
         <div class="relative group">
-          <a href="#" class="text-gray-500 dark:text-gray-300">
+          <a href="#" class="text-gray-500 dark:text-gray-200">
             Movies
           </a>
 
-          <div class="absolute top-full left-0 hidden bg-white dark:bg-gray-800 p-2 border border-gray-200 dark:border-gray-700 rounded-md shadow-lg min-w-[150px] z-50  group-hover:block flex flex-col">
+          <div class="absolute top-full left-0 hidden bg-white p-2 border border-gray-200 rounded-md shadow-lg min-w-[150px] z-50 group-hover:block flex flex-col dark:bg-gray-800 dark:border-gray-700">
             <ul>
-              <a href="#" class="text-gray-600 dark:text-gray-200 py-2 px-3 block hover:bg-rose-50 hover:rounded-md hover:text-rose-500">
+              <a href="#" class="text-gray-600 dark:hover:bg-gray-700 dark:text-gray-200 dark:hover:rounded-md py-2 px-3 block hover:bg-rose-50 hover:rounded-md hover:text-rose-500">
                 Popular
               </a>
 
-              <a href="#" class="text-gray-600 dark:text-gray-200 py-2 px-3 block hover:bg-rose-50 hover:rounded-md hover:text-rose-500">
+              <a href="#" class="text-gray-600 dark:text-gray-200 dark:hover:bg-gray-700 dark:hover:rounded-md py-2 px-3 block hover:bg-rose-50 hover:rounded-md hover:text-rose-500">
                 Now Playing
               </a>
 
-              <a href="#" class="text-gray-600 dark:text-gray-200 py-2 px-3 block hover:bg-rose-50 hover:rounded-md hover:text-rose-500">
+              <a href="#" class="text-gray-600 dark:text-gray-200 dark:hover:bg-gray-700 dark:hover:rounded-md py-2 px-3 block hover:bg-rose-50 hover:rounded-md hover:text-rose-500">
                 Top Rated
               </a>
 
-              <a href="#" class="text-gray-600 dark:text-gray-200 py-2 px-3 block hover:bg-rose-50 hover:rounded-md hover:text-rose-500">
+              <a href="#" class="text-gray-600 dark:text-gray-200 dark:hover:bg-gray-700 dark:hover:rounded-md py-2 px-3 block hover:bg-rose-50 hover:rounded-md hover:text-rose-500">
                 Upcoming
               </a>
             </ul>
@@ -52,45 +58,45 @@
         </div>
 
         <div class="relative group">
-          <a href="" class="text-gray-500 dark:text-gray-300">
+          <a href="" class="text-gray-500">
             TV Series
           </a>
 
-          <div class="absolute top-full left-0 hidden bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 py-2 px-3 rounded-md shadow-lg min-w-[180px] z-50 group-hover:block flex flex-col">
-            <a href="#" class="text-gray-600 dark:text-gray-200 py-2 px-3 block hover:bg-rose-50 hover:rounded-md hover:text-rose-500">
+          <div class="absolute top-full left-0 hidden bg-white border border-gray-200 py-2 px-3 rounded-md shadow-lg min-w-[180px] z-50 group-hover:block flex flex-col">
+            <a href="#" class="text-gray-600 py-2 px-3 block hover:bg-rose-50 hover:rounded-md hover:text-rose-500">
               Popular Shows
             </a>
 
-            <a href="#" class="text-gray-600 dark:text-gray-200 py-2 px-3 block hover:bg-rose-50 hover:rounded-md hover:text-rose-500">
+            <a href="#" class="text-gray-600 py-2 px-3 block hover:bg-rose-50 hover:rounded-md hover:text-rose-500">
               Airing Today
             </a>
 
-            <a href="#" class="text-gray-600 dark:text-gray-200 py-2 px-3 block hover:bg-rose-50 hover:rounded-md hover:text-rose-500">
+            <a href="#" class="text-gray-600 py-2 px-3 block hover:bg-rose-50 hover:rounded-md hover:text-rose-500">
               On The Air
             </a>
 
-            <a href="#" class="text-gray-600 dark:text-gray-200 py-2 px-3 block hover:bg-rose-50 hover:rounded-md hover:text-rose-500">
+            <a href="#" class="text-gray-600 py-2 px-3 block hover:bg-rose-50 hover:rounded-md hover:text-rose-500">
               Top Rated Shows
             </a>
           </div>
         </div>
 
-        <a href="#" class="text-gray-500 dark:text-gray-300">
+        <a href="#" class="text-gray-500">
           Genres
         </a>
 
-        <a href="#" class="text-gray-500 dark:text-gray-300">
+        <a href="#" class="text-gray-500">
           Trending
         </a>
       </nav>
 
       <div class="flex gap-4 items-center">
-        <button class="px-2 py-1 bg-gray-200 dark:bg-gray-700 text-gray-800 dark:text-gray-100 rounded cursor-pointer" id="themeBtn" type="button" onclick="toggleTheme()">
+        <button class="px-2 py-1 bg-gray-200 text-gray-800 rounded cursor-pointer" id="themeBtn" type="button" onclick="toggleTheme()">
           🌙
         </button>
 
         <a href="">
-          <button class="border border-gray-200 py-2 px-4 rounded-md font-semibold hover:bg-gray-200 dark:hover:bg-gray-800">
+          <button class="border border-gray-200 py-2 px-4 rounded-md font-semibold hover:bg-gray-200">
             Log In
           </button>
         </a>
@@ -119,14 +125,14 @@
         </h2>
 
         <div class="grid grid-cols-4 gap-4">
-          <div class="border border-gray-300 dark:border-gray-600 p-2 rounded-md ">
+          <div class="border border-gray-300 p-2 rounded-md ">
             <img src="https://d1csarkz8obe9u.cloudfront.net/posterpreviews/movie-poster-template-design-21a1c803fe4ff4b858de24f5c91ec57f_screen.jpg?ts=1636996180" alt="" class="w-full object-cover mb-2 rounded-md">
 
-            <h3 class="text-xl font-semibold text-gray-600 dark:text-gray-200 mb-2">
+            <h3 class="text-xl font-semibold text-gray-600 mb-2">
               Movie Title
             </h3>
 
-            <p class="text-gray-500 dark:text-gray-300">
+            <p class="text-gray-500">
               Movie Overview
             </p>
           </div>
