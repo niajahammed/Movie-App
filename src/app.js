@@ -46,7 +46,7 @@ function displayTrendingMovies (movies) {
   let trendingMovieHTML = "";
 
   movies.forEach ((movie) => {
-    const movieImageUrl = `${IMAGE_BASE_URL}${movie.poster_path}`;
+    const movieImageUrl = movie.poster_path ? `${IMAGE_BASE_URL}${movie.poster_path}` : "https://via.placeholder.com/500x750?text=No+Poster";
 
     trendingMovieHTML += `
       <div class="border border-gray-300 p-2 rounded-md dark:border-gray-700">
@@ -84,7 +84,7 @@ function displayTrendingTV (shows) {
   let trendingTVHTML = "";
 
   shows.forEach ((show) => {
-    const TVImageUrl = `${IMAGE_BASE_URL}${show.poster_path}`;
+    const TVImageUrl = show.poster_path ? `${IMAGE_BASE_URL}${show.poster_path}` : "https://via.placeholder.com/500x750?text=No+Poster";
 
     trendingTVHTML += `
       <div class="border border-gray-300 p-2 rounded-md dark:border-gray-700">
@@ -116,19 +116,50 @@ async function searchItems () {
   } catch (error) {
     console.error("Error fetching search results: ", error);
   }
+
+  searchInput.value = "";
 }
 
 // for display search items 
 function displaySearchResults (results) {
-  const movies = results.filter((item) => item.media_type === "movie");
-  const tvShows = results.filter((item) => item.media_type === "tv");
+  const moviesTitle = document.getElementById("moviesTitle");
+  const tvTitle = document.getElementById("tvTitle");
+  const noDisplay = document.getElementById("noDisplay");
 
-  results.forEach ((item) => {
-    const title = item.title || item.name || item.original_title || item.original_name || "Untitled";
+  const movies = results ? results.filter((item) => item.media_type === "movie") : [];
+  const tvShows = results ? results.filter((item) => item.media_type === "tv") : [];
 
-    displayTrendingMovies(movies);
-    displayTrendingTV(tvShows);
-  });
+  if (!results || results.length === 0 || (movies.length === 0 && tvShows.length === 0)) {
+    if (moviesTitle) {
+      moviesTitle.style.display = "none";
+    }
+    if (tvTitle) {
+      tvTitle.style.display = "none";
+    }
+
+    document.getElementById("trending-movies").innerHTML = "";
+    document.getElementById("trending-tv").innerHTML = "";
+
+    if (noDisplay) {
+      noDisplay.innerHTML = `<p class="text-xl font-semibold text-rose-600 dark:text-rose-500 text-center my-8">
+        Nothing found!
+      </p>`
+    }
+    return;
+  }
+
+  if (noDisplay) {
+    noDisplay.innerHTML = "";
+  }
+  if (moviesTitle) {
+    moviesTitle.style.display = movies.length > 0 ? "block" : "none";
+  }
+  if (tvTitle) {
+    tvTitle.style.display = tvShows.length > 0 ? "block" : "none";
+  }
+
+  displayTrendingMovies(movies);
+  displayTrendingTV(tvShows);
 }
 
 searchBtn.addEventListener("click", () => {
