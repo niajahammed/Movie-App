@@ -1,6 +1,8 @@
 const API_KEY = "da99b8a46a743f9cb89fc6527d422c87";
 const BASE_URL = "https://api.themoviedb.org/3/";
 const IMAGE_BASE_URL = "https://image.tmdb.org/t/p/w500/";
+const searchInput = document.getElementById("searchInput");
+const searchBtn = document.getElementById("searchBtn");
 
 const htmlElement = document.documentElement;
 const themeBtn = document.getElementById("themeBtn");
@@ -100,3 +102,35 @@ function displayTrendingTV (shows) {
   });
   document.getElementById("trending-tv").innerHTML = trendingTVHTML;
 }
+
+// for searching movies, tv shows 
+async function searchItems () {
+  if (!searchInput) return;
+
+  const searchUrl = `${BASE_URL}search/multi?api_key=${API_KEY}&query=${searchInput.value}`;
+
+  try {
+    await fetch (searchUrl)
+            .then ((res) => res.json())
+            .then ((data) => displaySearchResults(data.results));
+  } catch (error) {
+    console.error("Error fetching search results: ", error);
+  }
+}
+
+// for display search items 
+function displaySearchResults (results) {
+  const movies = results.filter((item) => item.media_type === "movie");
+  const tvShows = results.filter((item) => item.media_type === "tv");
+
+  results.forEach ((item) => {
+    const title = item.title || item.name || item.original_title || item.original_name || "Untitled";
+
+    displayTrendingMovies(movies);
+    displayTrendingTV(tvShows);
+  });
+}
+
+searchBtn.addEventListener("click", () => {
+  searchItems();
+});
