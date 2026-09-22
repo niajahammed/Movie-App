@@ -14,6 +14,8 @@ const moviesBtn = document.getElementById("moviesBtn");
 const htmlElement = document.documentElement;
 const themeBtn = document.getElementById("themeBtn");
 
+const viewMoreMoviesBtn = document.getElementById("viewMoreMoviesBtn");
+
 
 // for theme 
 function toggleTheme () {
@@ -47,28 +49,26 @@ function shuffle (array) {
   return array;
 }
 
-function showView (viewName) {
-  if (viewName === "home") {
-    homeView.classList.remove("hidden");
-    moviesView.classList.add("hidden");
-    homeBtn.className = "text-rose-600 font-semibold dark:text-rose-500 cursor-pointer";
-    moviesBtn.className = "text-gray-500 dark:text-gray-200 cursor-pointer hover:text-rose-600"
-  } else if (viewName === "movies") {
-    homeView.classList.add("hidden");
-    moviesView.classList.remove("hidden");
-    moviesBtn.className = "text-rose-600 font-semibold dark:text-rose-500 cursor-pointer";
-    homeBtn.className = "text-gray-500 dark:text-gray-200 cursor-pointer hover:text-rose-600";
+function switchToMoviesView () {
+  homeView.classList.add("hidden");
+  moviesView.classList.remove("hidden");
 
-    // Load page 1 if container is currently empty
-    if (document.getElementById("all-movies-grid").children.length === 0) {
-      fetchMoreMovies(currentMoviePage);
-    }
+  if (document.getElementById("all-movies-grid").children.length === 0) {
+    fetchAllMovies();
   }
 }
 
-homeBtn.addEventListener("click", () => showView("home"));
-moviesBtn.addEventListener("click", () => showView("movies"));
-viewMoreMoviesBtn.addEventListener("click", () => showView("movies"));
+function switchToHomeView () {
+  moviesView.classList.add("hidden");
+  homeView.classList.remove("hidden");
+}
+
+viewMoreMoviesBtn.addEventListener("click", () => {
+  switchToMoviesView();
+});
+moviesBtn.addEventListener("click", () => {
+  switchToMoviesView();
+});
 
 // for trending movies
 async function fetchTrendingMovies () {
@@ -127,6 +127,45 @@ async function fetchTrendingTV () {
    }
 }
 fetchTrendingTV();
+
+async function fetchAllMovies () {
+  const url = `${BASE_URL}discover/movie?api_key=${API_KEY}&sort_by=popularity.desc&page=1`;
+
+  try {
+    const res = await fetch(url);
+    const data = await res.json();
+    displayFullMoviesGrid(data.results);
+  } catch (error) {
+    console.error("Error fetching full movies list: ", error);
+  }
+}
+fetchAllMovies();
+
+function displayFullMoviesGrid (movies) {
+  let displayAllHtml = "";
+
+  const container = document.getElementById("all-movies-grid");
+  container.innerHTML = "";
+
+  movies.forEach((movie) => {
+    const posterUrl = movie.poster_path ? `${IMAGE_BASE_URL}${movie.poster_path}` : "https://via.placeholder.com/500x750?text=No+Poster";
+
+    displayAllHtml += `
+      <div class="border border-gray-300 p-2 rounded-md dark:border-gray-700">
+        <img src="${posterUrl}" alt="${movie.original_title}" class="w-full object-cover mb-2 rounded-md">
+
+        <h3 class="text-xl font-semibold text-gray-600 mb-2 dark:text-gray-200">
+          ${movie.original_title}
+        </h3>
+
+        <p class="text-gray-500 dark:text-gray-400 mb-1">
+          ${movie.overview.slice(0, 30) || "No description available"}...
+        </p>
+      </div>
+    `;
+    container.innerHTML = displayAllHtml;
+  });
+}
 
 // display trending TV 
 function displayTrendingTV (shows) {
