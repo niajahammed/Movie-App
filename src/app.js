@@ -15,6 +15,7 @@ const htmlElement = document.documentElement;
 const themeBtn = document.getElementById("themeBtn");
 
 const viewMoreMoviesBtn = document.getElementById("viewMoreMoviesBtn");
+const backToHomeBtn = document.getElementById("backToHome");
 
 
 // for theme 
@@ -167,6 +168,12 @@ function displayFullMoviesGrid (movies) {
   });
 }
 
+if (backToHomeBtn) {
+  backToHomeBtn.addEventListener("click", () => {
+    switchToHomeView();
+  });
+}
+
 // display trending TV 
 function displayTrendingTV (shows) {
   let trendingTVHTML = "";
@@ -208,64 +215,10 @@ async function searchItems () {
   searchInput.value = "";
 }
 
-// for display search items 
-function displaySearchResults (results) {
-  const moviesTitle = document.getElementById("moviesTitle");
-  const tvTitle = document.getElementById("tvTitle");
-  const noDisplay = document.getElementById("noDisplay");
-
-  const movies = results ? results.filter((item) => item.media_type === "movie") : [];
-  const tvShows = results ? results.filter((item) => item.media_type === "tv") : [];
-
-  if (!results || results.length === 0 || (movies.length === 0 && tvShows.length === 0)) {
-    if (moviesTitle) {
-      moviesTitle.style.display = "none";
-    }
-    if (tvTitle) {
-      tvTitle.style.display = "none";
-    }
-
-    document.getElementById("trending-movies").innerHTML = "";
-    document.getElementById("trending-tv").innerHTML = "";
-
-    if (noDisplay) {
-      noDisplay.innerHTML = `<p class="text-xl font-semibold text-rose-600 dark:text-rose-500 text-center my-8">
-        Nothing found!
-      </p>`
-    }
-    return;
-  }
-
-  if (noDisplay) {
-    noDisplay.innerHTML = "";
-  }
-  if (moviesTitle) {
-    moviesTitle.style.display = movies.length > 0 ? "block" : "none";
-  }
-  if (tvTitle) {
-    tvTitle.style.display = tvShows.length > 0 ? "block" : "none";
-  }
-
-  displayTrendingMovies(movies);
-  displayTrendingTV(tvShows);
-}
-
 searchBtn.addEventListener("click", () => {
   searchItems();
 });
 
-// for view more movies 
-async function fetchMoreMovies () {
-  const url = `${BASE_URL}trending/movie/week?api_key=${API_KEY}`;
-
-  try {
-    await fetch(url)
-          .then((res) => res.json())
-          .then((data) => displayTrendingMovies(data.results));
-  } catch (error) {
-    console.error("Error fetching movies: ", error);
-  }
-}
 document.getElementById("viewMoreMoviesBtn").addEventListener("click", () => {
   fetchMoreMovies();
 });
